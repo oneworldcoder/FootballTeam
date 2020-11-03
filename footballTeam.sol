@@ -1,4 +1,5 @@
 pragma solidity >=0.4.0 <0.7.0;
+pragma experimental ABIEncoderV2;
 
 contract FootballTeam {
     
@@ -12,6 +13,8 @@ contract FootballTeam {
     
     mapping (address => Player) public players;
     
+    Player[] public playerList;
+    
     function setPlayer(string memory name, uint jerseyNumber, uint age, string memory nationality, string memory playingPosition) public {
         address creator = msg.sender;
         
@@ -23,6 +26,7 @@ contract FootballTeam {
         newPlayer.playingPosition = playingPosition;
         
         players[creator] = newPlayer;
+        playerList.push(newPlayer);
         
     }
     
@@ -30,4 +34,11 @@ contract FootballTeam {
         address creator = msg.sender;
         return (players[creator].name, players[creator].jerseyNumber, players[creator].age, players[creator].nationality, players[creator].playingPosition);
     }
+    
+    function getPlayerList()  public view returns (Player [] memory) {
+
+        return playerList;
+
+    }
+    
 }
